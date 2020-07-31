@@ -1,0 +1,158 @@
+import pygame
+from random import randint
+pygame.init()
+x = 600  
+y = 600
+direita_x = 0
+direita_y = 200
+esquerda_x = 750
+esquerda_y = 380
+
+botoes_x  = 400
+botoes_y = 500
+
+#cordenada
+
+#game over
+game_overr = pygame.image.load("game over.png")
+
+
+
+#opload
+velocidade = 15
+
+carro_direita = pygame.image.load('carro virado 1.png')
+carro_direita1 = pygame.image.load('carro virado 1.png')
+carro_direita2 = pygame.image.load('carro virado 1.png')
+carro_esquerda = pygame.image.load('carro virado 2.png')
+carro_esquerda1 = pygame.image.load('carro virado 2.png')
+carro_esquerda2 = pygame.image.load('carro virado 2.png')
+fundo = pygame.image.load('cenario.png')
+carro = pygame.image.load('w.png')
+tente_novamente = pygame.image.load("tente novamente.png")
+sair = pygame.image.load("Sair.png")
+
+
+
+#tela visor
+tela = pygame.display.set_mode((1080, 720))
+pygame.display.set_caption(("Pelas Ruas"))
+tela_aberta = True
+while tela_aberta:
+    pygame.time.delay(50)
+
+    #fecha aba
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            tela_aberta = False
+
+
+    #controles
+    comandos = pygame.key.get_pressed()
+    if comandos[pygame.K_a]:
+        x -= velocidade
+        carro = pygame.image.load('a.png')
+    if comandos[pygame.K_d]:
+        x += velocidade
+        carro = pygame.image.load('d.png')
+    if comandos[pygame.K_w]:
+        y -= velocidade
+        carro = pygame.image.load('w.png')
+    if comandos[pygame.K_s]:
+        y += velocidade
+        carro = pygame.image.load('s.png')
+
+
+
+    #posiçao
+    if direita_x >= 3500 and esquerda_x <= -500:
+        direita_x = randint(-900,-800 )
+        esquerda_x = randint(1100, 1200)
+
+    if y <= -500:
+        y = 700
+    if y >= 800:
+        y = -400
+
+     # quadrados
+    meucarro = pygame.Rect(x, y, 68, 138)
+    pygame.draw.rect(tela, (255, 255, 255), meucarro)
+
+    carro_direit = pygame.Rect(direita_x + 60, direita_y + 30, 170, 90)
+    pygame.draw.rect(tela, (255, 255, 255), carro_direit)
+
+    carro_direit1 = pygame.Rect(direita_x - 340, direita_y + 30, 170, 90)
+    pygame.draw.rect(tela, (255, 255, 255), carro_direit1)
+
+    carro_direit2 = pygame.Rect(direita_x - 1440, direita_y + 30, 170, 90)
+    pygame.draw.rect(tela, (255, 255, 255), carro_direit2)
+
+    carro_esquerd = pygame.Rect(esquerda_x + 60, esquerda_y + 30, 175, 90)
+    pygame.draw.rect(tela, (255, 255, 255), carro_esquerd)
+
+    carro_esquerd1 = pygame.Rect(esquerda_x + 460, esquerda_y + 30, 175, 90)
+    pygame.draw.rect(tela, (255, 255, 255), carro_esquerd1)
+
+    carro_esquerd2 = pygame.Rect(esquerda_x + 1060, esquerda_y + 30, 175, 90)
+    pygame.draw.rect(tela, (255, 255, 255), carro_esquerd2)
+
+
+    tela.blit(fundo, (0, 0))
+    tela.blit(carro, (x, y))
+    tela.blit(carro_direita1, (direita_x, direita_y))
+    tela.blit(carro_direita2, (direita_x - 400, direita_y))
+    tela.blit(carro_esquerda, (esquerda_x, esquerda_y))
+    tela.blit(carro_esquerda1, (esquerda_x + 400, esquerda_y))
+    tela.blit(carro_esquerda2, (esquerda_x + 1000, esquerda_y))
+    tela.blit(carro_direita, (direita_x - 1500, direita_y))
+
+
+
+    #colisão
+    if meucarro.collidepoint(direita_x + 60,direita_y + 30):
+        velocidade = 0
+        tela.blit(game_overr, (0, 0))
+        tela.blit(tente_novamente, (botoes_x - 127, botoes_y + 16))
+        tela.blit(sair, (botoes_x + 182, botoes_y + 16))
+
+
+    if meucarro.collidepoint(direita_x -340,direita_y + 30):
+        velocidade = 0
+        tela.blit(game_overr, (0, 0))
+        tela.blit(tente_novamente, (botoes_x - 127, botoes_y + 16))
+        tela.blit(sair, (botoes_x + 182, botoes_y + 16))
+
+    if meucarro.collidepoint(direita_x - 1440,direita_y + 30):
+        velocidade = 0
+        tela.blit(game_overr, (0, 0))
+        tela.blit(tente_novamente, (botoes_x - 127, botoes_y + 16))
+        tela.blit(sair, (botoes_x + 182, botoes_y + 16))
+
+    if meucarro.collidepoint(esquerda_x + 60,esquerda_y + 30):
+        velocidade = 0
+        tela.blit(game_overr, (0, 0))
+        tela.blit(tente_novamente, (botoes_x - 127, botoes_y + 16))
+        tela.blit(sair, (botoes_x + 182, botoes_y + 16))
+
+    if meucarro.collidepoint(esquerda_x + 460,esquerda_y + 30):
+        velocidade = 0
+        tela.blit(game_overr, (0, 0))
+        tela.blit(tente_novamente, (botoes_x - 127, botoes_y + 16))
+        tela.blit(sair, (botoes_x + 182, botoes_y + 16))
+
+    if meucarro.collidepoint(esquerda_x + 1060,esquerda_y + 30):
+        velocidade = 0
+        tela.blit(game_overr, (0, 0))
+        tela.blit(tente_novamente, (botoes_x - 127, botoes_y + 16))
+        tela.blit(sair, (botoes_x + 182, botoes_y + 16))
+
+
+    #movimentaçao
+
+    direita_x += velocidade
+    esquerda_x -= velocidade
+
+    #atualizaçao
+    pygame.display.update()
+
+pygame.quit()
